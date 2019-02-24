@@ -16,9 +16,11 @@ namespace mongoContacts
             var collection = database.GetCollection<BsonDocument>("contacts");*/
             ContactsService contactService = new ContactsService("localhost");
             Contact contact = new Contact();
+            contact.id = new ObjectId("5c72e618742adc04b3eb89df");
             contact.name = "JS";
-            contact.email.Add("xxx");
-            contactService.Insert(contact);
+            contact.surname = "U2";
+            contact.email.Add("xxx2");
+            contactService.UpdateContact(contact);
         }
     }
 }
