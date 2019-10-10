@@ -1,5 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
 
 namespace mongoContacts
 {
@@ -18,8 +20,26 @@ namespace mongoContacts
             this.mongoCollection = mongoDatabase.GetCollection<Contact>(collection);
         }
 
-        public void Insert(Contact contact){
+        public void Insert(Contact contact)
+        {
             mongoCollection.InsertOne(contact);
+        }
+
+        public List<Contact> Find(Contact contact)
+        {
+            var contacts = mongoCollection.Find(x => x.name == contact.name).ToList();
+            return contacts;
+        }
+
+        public bool Exists(Contact contact)
+        {
+            var filter = Builders<Contact>.Filter.And(
+            Builders<Contact>.Filter.Eq("name", contact.name),
+            Builders<Contact>.Filter.Eq("surname", contact.surname)
+            );
+            var count = mongoCollection.CountDocuments(filter);
+
+            return count > 0;
         }
     }
 }
