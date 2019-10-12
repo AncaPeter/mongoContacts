@@ -15,11 +15,11 @@ namespace mongoContacts
             var database = client.GetDatabase("learning");
             var collection = database.GetCollection<BsonDocument>("contacts");*/
             ContactsService contactService = new ContactsService("localhost");
-             Contact contact = new Contact();
-             contact.name = "Ion";
-            contact.surname ="xyz";
+            Contact contact = new Contact();
+            contact.name = "V";
+            contact.surname ="Di";
             contact.email.Add("xxx");
-            contactService.Find(contact);
+            contactService.FindByNameAndSurname(contact.name, contact.surname);
             contactService.Insert(contact);
             contactService.Exists(contact);
             Console.WriteLine(contact);
