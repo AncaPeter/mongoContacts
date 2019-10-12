@@ -25,10 +25,12 @@ namespace mongoContacts
             mongoCollection.InsertOne(contact);
         }
 
-        public List<Contact> Find(Contact contact)
+        public List<Contact> FindByNameAndSurname(string name, string surname)
         {
-            var contacts = mongoCollection.Find(x => x.name == contact.name).ToList();
-            return contacts;
+            FilterDefinition<Contact> filter = new BsonDocument().Add("name", new BsonDocument("$regex","^" + name + ".*"))
+                                                                 .Add("surname", new BsonDocument("$regex","^" + surname + ".*"));
+
+            return mongoCollection.Find(filter).ToList();
         }
 
         public bool Exists(Contact contact)
