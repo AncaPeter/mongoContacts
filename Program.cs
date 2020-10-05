@@ -21,6 +21,10 @@ namespace mongoContacts
             contact.surname = "U2";
             contact.email.Add("xxx2");
             contactService.UpdateContact(contact);
+            contactService.FindByNameAndSurname(contact.name, contact.surname);
+            contactService.Insert(contact);
+            contactService.Exists(contact);
+            Console.WriteLine(contact);
         }
     }
 }
