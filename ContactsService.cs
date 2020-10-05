@@ -1,6 +1,6 @@
+using System;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 
 namespace mongoContacts
@@ -42,6 +42,31 @@ namespace mongoContacts
             var count = mongoCollection.CountDocuments(filter);
 
             return count > 0;
+        }
+
+        public long UpdateContact(Contact contact)
+        {
+            log("Updating document with id " + contact.id);
+
+            if (contact.id == null || contact.id == ObjectId.Empty)
+            {
+                throw new Exception("Id cannot be null");
+            }
+
+            var filter = Builders<Contact>.Filter.Eq("id", contact.id);
+            var update = Builders<Contact>.Update.
+            Set(c => c.surname, contact.surname);
+
+            var updateResult = mongoCollection.UpdateOne(filter, update);
+            
+            log("update OK: "+ updateResult.ModifiedCount + " documents modified");
+            
+            return updateResult.ModifiedCount;
+     }
+
+        private void log(String message)
+        {
+            Console.WriteLine(message);
         }
     }
 }
